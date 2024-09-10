@@ -1,0 +1,63 @@
+<!-- Event Details -->
+<div class="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-lg shadow-md m-5">
+  <div class="w-full md:w-1/3 mb-5 md:mb-0">
+      <img src="https://www.eventify.bg/images/pngs/event.png" alt="Event Image" class="rounded-lg w-full">
+  </div>
+
+  <div class="w-full md:w-2/3 md:ml-8 text-center md:text-left">
+      <!-- Add the first logo here -->
+      <img src="/5labs_logo.png" alt="Logo 1" class="w-24 mb-4 mx-auto md:mx-0">
+      <h2 class="text-2xl font-bold mb-4">Тест</h2>
+      <p class="flex items-center justify-center md:justify-start mb-2">
+          <span class="mr-2">📅</span> 9/12/2024, 6:00:00 PM
+      </p>
+      <p class="flex items-center justify-center md:justify-start mb-2">
+          <span class="mr-2">📍</span> Devin, Bulgaria
+      </p>
+      <p class="mb-2">Това е тестово събитие.</p>
+      <p class="flex items-center justify-center md:justify-start mb-4">
+          <span class="mr-2">💲</span> 5.00 BGN
+      </p>
+      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+          (click)="openForm()">
+          Купи билет
+      </button>
+  </div>
+</div>
+
+<!-- Modal Form (Improved for smaller devices) -->
+<div id="ticketFormModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+<div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl mx-4 sm:mx-auto mt-8 sm:mt-0 sm:max-h-[90vh] overflow-y-auto">
+  <h2 class="text-2xl font-bold mb-6">Попълнете данните си</h2>
+  <form (submit)="submitForm()">
+    <div class="mb-6">
+      <label class="block text-sm font-bold mb-2">Име</label>
+      <input type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200" [(ngModel)]="firstName" name="firstName" required>
+    </div>
+    <div class="mb-6">
+      <label class="block text-sm font-bold mb-2">Фамилия</label>
+      <input type="text" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200" [(ngModel)]="surname" name="surname" required>
+    </div>
+    <div class="mb-6">
+      <label class="block text-sm font-bold mb-2">Имейл</label>
+      <input type="email" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200" [(ngModel)]="email" name="email" required>
+    </div>
+    <div class="mb-6">
+      <label class="block text-sm font-bold mb-2">Телефон</label>
+      <input type="tel" class="w-full p-3 border rounded-lg focus:ring focus:ring-blue-200" [(ngModel)]="phone" name="phone" required>
+    </div>
+    <div class="flex justify-between">
+      <button type="submit" 
+              [disabled]="loading" 
+              class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <span *ngIf="loading">Зарежда...</span>
+        <span *ngIf="!loading">Към плащане</span>
+      </button>
+      <button type="button" class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+              (click)="closeForm()">
+        Откажи
+      </button>
+    </div>
+  </form>
+</div>
+</div>

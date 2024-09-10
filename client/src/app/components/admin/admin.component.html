@@ -1,0 +1,97 @@
+<div class="admin-container max-w-4xl mx-auto my-10 p-5 bg-white shadow-lg rounded-lg">
+  <h1 class="text-2xl font-bold mb-5 text-gray-700">Ticket Sales</h1>
+
+  <!-- Statistics Section -->
+  <div class="mb-6 p-5 bg-gray-50 rounded-lg shadow-md grid grid-cols-1 sm:grid-cols-4 gap-4">
+    <div class="text-center">
+      <p class="text-gray-600 font-bold">Total Registered</p>
+      <p class="text-3xl font-semibold">{{ totalOrders }}</p>
+    </div>
+    <div class="text-center">
+      <p class="text-gray-600 font-bold">Approved</p>
+      <p class="text-3xl font-semibold text-green-500">{{ approvedOrders }}</p>
+    </div>
+    <div class="text-center">
+      <p class="text-gray-600 font-bold">Disapproved</p>
+      <p class="text-3xl font-semibold text-red-500">{{ disapprovedOrders }}</p>
+    </div>
+    <div class="text-center">
+      <p class="text-gray-600 font-bold">Unset</p>
+      <p class="text-3xl font-semibold text-gray-500">{{ unsetOrders }}</p>
+    </div>
+  </div>
+
+  <!-- Form for status change -->
+  <div class="mb-6 p-5 bg-gray-50 rounded-lg shadow-md flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+    <div class="flex flex-col sm:flex-row items-center w-full sm:w-auto">
+      <input [(ngModel)]="verificationCodeInput" 
+             placeholder="Enter 5-digit code"
+             class="border border-gray-300 rounded-lg p-3 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 mr-0 sm:mr-4 w-full sm:w-64 mb-4 sm:mb-0" />
+
+      <select [(ngModel)]="newStatus" 
+              class="border border-gray-300 rounded-lg p-3 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-48">
+        <option value="" disabled selected>Select new status</option>
+        <option value="approved">Approve</option>
+        <option value="disapproved">Disapprove</option>
+      </select>
+    </div>
+    
+    <button (click)="changeStatusByCode()" 
+            [disabled]="loading"
+            class="bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <span *ngIf="loading">Loading...</span>
+      <span *ngIf="!loading">Change Status</span>
+    </button>
+  </div>
+
+  <!-- Orders table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full table-auto">
+      <thead>
+        <tr class="bg-gray-200 text-left">
+          <th class="px-4 py-2 text-gray-600">Name</th>
+          <th class="px-4 py-2 text-gray-600">Email</th>
+          <th class="px-4 py-2 text-gray-600">Phone</th>
+          <th class="px-4 py-2 text-gray-600">Status</th>
+          <th class="px-4 py-2 text-gray-600">Verification Code</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="order-row" *ngFor="let order of orders" class="bg-white hover:bg-gray-100 transition-all">
+          <td class="border px-4 py-2">{{ order.customerName }}</td>
+          <td class="border px-4 py-2">{{ order.customerEmail }}</td>
+          <td class="border px-4 py-2">{{ order.customerPhone }}</td>
+          <td class="border px-4 py-2">
+            <span [ngClass]="{
+                    'text-green-500': order.status === 'approved',
+                    'text-red-500': order.status === 'disapproved',
+                    'text-gray-500': order.status === 'unset'
+                  }">
+              {{ order.status.charAt(0).toUpperCase() + order.status.slice(1) }}
+            </span>
+          </td>
+          <td class="border px-4 py-2">{{ order.verificationCode }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Confirmation modal -->
+  <div *ngIf="showModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-5 rounded-lg shadow-lg max-w-md w-full mx-4">
+      <h2 class="text-lg font-semibold mb-4 text-gray-700">Are you sure you want to change the status to {{ selectedStatus }}?</h2>
+      <div class="flex justify-end">
+        <button (click)="confirmChange()" 
+                [disabled]="loading"
+                class="bg-green-500 hover:bg-green-700 disabled:bg-green-300 text-white font-bold py-2 px-4 rounded-lg mr-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+          <span *ngIf="loading">Loading...</span>
+          <span *ngIf="!loading">Yes</span>
+        </button>
+        <button (click)="closeModal()" 
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
