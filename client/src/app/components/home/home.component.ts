@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     const fullName = `${this.firstName} ${this.surname}`;
 
     // Send request to server
-    this.http.post('http://localhost:3000/stripe/create-checkout-session', {
+    this.http.post('https://sofiafilm-production.up.railway.app/stripe/create-checkout-session', {
       name: fullName,  // Full name is sent as expected by the server
       email: this.email,
       phone: this.phone,
