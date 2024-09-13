@@ -95,7 +95,7 @@ export class StripeService {
     });
   
     // Send confirmation email
-    await this.emailService.sendConfirmationEmail(metadata.customerEmail);
+    await this.emailService.sendConfirmationEmail(metadata.customerEmail, verificationCode);
   }
   
 }

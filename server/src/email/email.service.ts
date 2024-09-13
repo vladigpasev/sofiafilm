@@ -37,8 +37,7 @@ export class EmailService {
           </tr>
           <tr>
             <td style="background-color: #f4f4f4; padding: 20px; text-align: center; color: #666666; font-size: 12px;">
-              <p style="margin: 0;">Sofia Film Event | Address: 123 Main Street, Sofia, Bulgaria</p>
-              <p style="margin: 0;">Follow us on <a href="https://twitter.com" style="color: #4CAF50; text-decoration: none;">Twitter</a> | <a href="https://facebook.com" style="color: #4CAF50; text-decoration: none;">Facebook</a></p>
+              <p style="margin: 0;">Sofia Film</p>
             </td>
           </tr>
         </table>
@@ -46,10 +45,10 @@ export class EmailService {
     `;
   }
 
-  // Confirmation Email (After Payment)
-  async sendConfirmationEmail(to: string) {
+  // Confirmation Email (After Payment) with verificationCode
+  async sendConfirmationEmail(to: string, verificationCode: string) {
     const content = `
-      Thank you for your payment! Please fill out the form to complete your registration for the Sofia Film Event.<br><br>
+      Thank you for your payment! Your verification code is: <strong>${verificationCode}</strong>. Please fill out the form to complete your registration for the Sofia Film Event.<br><br>
       <a href="https://forms.gle/5ZLPFx7D2misgUuU7" style="display: inline-block; padding: 10px 20px; color: white; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">Fill Out Form</a>
     `;
 
