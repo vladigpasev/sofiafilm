@@ -36,7 +36,7 @@ export class AdminComponent implements OnInit {
 
   fetchOrders(): void {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
-    this.http.get<any[]>('https://sofiafilm-production.up.railway.app/orders', { headers }).subscribe(
+    this.http.get<any[]>('https://api.sofia-film.eventify.bg/orders', { headers }).subscribe(
       (data: any[]) => {
         this.orders = data;
 
@@ -81,7 +81,7 @@ export class AdminComponent implements OnInit {
     this.loading = true;
     const headers = new HttpHeaders().set('Authorization', `Bearer ${this.token}`);
     
-    this.http.patch(`https://sofiafilm-production.up.railway.app/orders/${this.selectedOrder._id}`, { status: this.selectedStatus }, { headers }).subscribe(
+    this.http.patch(`https://api.sofia-film.eventify.bg/orders/${this.selectedOrder._id}`, { status: this.selectedStatus }, { headers }).subscribe(
       (response) => {
         this.selectedOrder.status = this.selectedStatus;
         console.log(`Order ${this.selectedOrder._id} updated to ${this.selectedStatus}`);
