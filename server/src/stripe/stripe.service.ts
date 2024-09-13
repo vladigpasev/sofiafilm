@@ -54,9 +54,6 @@ export class StripeService {
         success_url: this.frontendSuccessUrl,
         cancel_url: this.frontendCancelUrl,
         payment_intent_data: {
-          transfer_data: {
-            destination: connectedAccountId,
-          },
           application_fee_amount: Math.round(ticketPrice * 0.1 * 100),
         },
       },
