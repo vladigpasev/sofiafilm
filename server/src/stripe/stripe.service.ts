@@ -28,7 +28,7 @@ export class StripeService {
     return Math.floor(10000 + Math.random() * 90000).toString();  // Генериране на 5-цифрен код
   }
 
-  async createCheckoutSession(data: any, ticketPrice: number) {
+  async createCheckoutSession(data: any, ticketPrice: number, connectedAccountId: string) {
     const session = await this.stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -38,7 +38,7 @@ export class StripeService {
             product_data: {
               name: 'Event Ticket',
             },
-            unit_amount: ticketPrice * 100,
+            unit_amount: ticketPrice * 100, // Amount in cents
           },
           quantity: 1,
         },
@@ -52,10 +52,17 @@ export class StripeService {
       mode: 'payment',
       success_url: this.frontendSuccessUrl,
       cancel_url: this.frontendCancelUrl,
+      payment_intent_data: {
+        transfer_data: {
+          destination: connectedAccountId,
+        },
+        application_fee_amount: Math.round(ticketPrice * 0.1 * 100),
+      },
     });
-
+  
     return session;
   }
+  
 
   async handleWebhook(request: any, signature: string) {
     let event: Stripe.Event;

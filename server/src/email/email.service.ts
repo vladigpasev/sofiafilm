@@ -50,7 +50,7 @@ export class EmailService {
   async sendConfirmationEmail(to: string) {
     const content = `
       Thank you for your payment! Please fill out the form to complete your registration for the Sofia Film Event.<br><br>
-      <a href="your-google-form-link" style="display: inline-block; padding: 10px 20px; color: white; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">Fill Out Form</a>
+      <a href="https://forms.gle/5ZLPFx7D2misgUuU7" style="display: inline-block; padding: 10px 20px; color: white; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">Fill Out Form</a>
     `;
 
     const mailOptions = {
@@ -86,7 +86,6 @@ export class EmailService {
   async sendDisapprovalEmail(to: string) {
     const content = `
       Unfortunately, we regret to inform you that your application for the Sofia Film Event has been disapproved.<br><br>
-      If you have any questions, feel free to contact us at support@sofiafilm.bg.
     `;
 
     const mailOptions = {

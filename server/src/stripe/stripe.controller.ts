@@ -18,7 +18,8 @@ export class StripeController {
   ) {
     const session = await this.stripeService.createCheckoutSession(
       createCheckoutSessionDto,
-      50 // Dynamic pricing can be passed
+      50, // Dynamic pricing can be passed
+      "acct_1PvP9zQKidEALxEt"
     );
     return { url: session.url };
   }
