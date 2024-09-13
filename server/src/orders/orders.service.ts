@@ -17,14 +17,10 @@ export class OrdersService {
   }
 
   async createOrder(createOrderDto: CreateOrderDto): Promise<Order> {
-    const verificationCode = this.generateVerificationCode();
-
-    const createdOrder = new this.orderModel({
-      ...createOrderDto,
-      verificationCode,  // Добавяне на кода в поръчката
-    });
+    const createdOrder = new this.orderModel(createOrderDto);
     return createdOrder.save();
   }
+  
 
   async updateOrderStatus(id: string, updateData: { status?: string, inevent?: boolean }): Promise<Order> {
     const updatedFields = {};

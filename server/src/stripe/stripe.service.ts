@@ -81,28 +81,27 @@ export class StripeService {
     const session = event.data.object as Stripe.Checkout.Session;
     const metadata = session.metadata;
   
-    // Generate a 5-digit verification code ONCE
+    // Генериране на verification кода
     const verificationCode = this.generateVerificationCode();
   
-    // Create the order and pass the generated verification code
+    // Създаване на поръчка с кода
     const order = await this.ordersService.createOrder({
       customerName: metadata.customerName,
       customerEmail: metadata.customerEmail,
       customerPhone: metadata.customerPhone,
-      ticketPrice: 50, // Adjust this as needed
+      ticketPrice: 50, // Може да се променя по желание
       paymentStatus: 'paid',
       status: 'unset',
-      verificationCode,  // Pass the generated code
+      verificationCode,  // Подаваме кода тук
       inevent: false,
     });
   
-    // Ensure the email service gets the SAME verification code
+    // Увери се, че същият verification код се изпраща в имейла
     if (order) {
       await this.emailService.sendConfirmationEmail(metadata.customerEmail, verificationCode);
     } else {
       throw new Error('Failed to create the order.');
     }
   }
-  
   
 }
