@@ -81,23 +81,28 @@ export class StripeService {
     const session = event.data.object as Stripe.Checkout.Session;
     const metadata = session.metadata;
   
-    // Generate a 5-digit verification code
+    // Generate a 5-digit verification code ONCE
     const verificationCode = this.generateVerificationCode();
   
-    // Create the order and pass inevent as false
-    await this.ordersService.createOrder({
+    // Create the order and pass the generated verification code
+    const order = await this.ordersService.createOrder({
       customerName: metadata.customerName,
       customerEmail: metadata.customerEmail,
       customerPhone: metadata.customerPhone,
-      ticketPrice: 50, // Dynamic price handling can be implemented here
+      ticketPrice: 50, // Adjust this as needed
       paymentStatus: 'paid',
       status: 'unset',
-      verificationCode,  // Adding the generated code
-      inevent: false,  // Set default value for inevent
+      verificationCode,  // Pass the generated code
+      inevent: false,
     });
   
-    // Send confirmation email
-    await this.emailService.sendConfirmationEmail(metadata.customerEmail, verificationCode);
+    // Ensure the email service gets the SAME verification code
+    if (order) {
+      await this.emailService.sendConfirmationEmail(metadata.customerEmail, verificationCode);
+    } else {
+      throw new Error('Failed to create the order.');
+    }
   }
+  
   
 }
